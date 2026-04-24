@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree AR Explorer</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100vh;
+            background-color: #e8f5e9;
+        }
+
+        #ar-button {
+            background: #2e7d32;
+            border-radius: 30px;
+            border: none;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 16px 32px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <model-viewer id="tree-viewer"
+                  ar
+                  ar-modes="scene-viewer quick-look webxr"
+                  camera-controls
+                  shadow-intensity="1.5" shadow-softness="0.5" exposure="1.2" environment-image="neutral" auto-rotate>
+
+        <button slot="ar-button" id="ar-button">
+            🌿 ส่องกล้องดูต้นไม้ (Quest Start!)
+        </button>
+    </model-viewer>
+
+    <script>
+        // ดึงชื่อต้นไม้จาก URL เช่น ?tree=ชื่อโมเดลเรา
+        const params = new URLSearchParams(window.location.search);
+        const tree = params.get('tree');
+
+        if (tree) {
+            const viewer = document.getElementById('tree-viewer');
+            // เปลี่ยนโมเดลและรูปตามชื่อที่รับมา
+            viewer.src = `models/plant.glb`;
+            viewer.poster = `images/plant.jpg`;
+        } else {
+            alert("กรุณาระบุชื่อต้นไม้ในลิงก์ (เช่น ?tree=durian)");
+        }
+    </script>
+</body>
+</html>
